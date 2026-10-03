@@ -1,0 +1,5 @@
+# Mai MVP 后端的直接运行依赖；由项目所有者在 mai Conda 环境中安装。
+fastapi[standard-no-fastapi-cloud-cli]
+openai
+pydantic-settings
+

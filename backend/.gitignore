@@ -1,0 +1,8 @@
+# 后端本地密钥、Python 缓存和测试产物不进入 Git。
+.env
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.coverage
+

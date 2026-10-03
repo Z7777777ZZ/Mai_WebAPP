@@ -1,0 +1,55 @@
+/* Mai 全局样式：定义移动端画布、微信式配色和聊天气泡。 */
+
+@import "tailwindcss";
+
+:root {
+  --wechat-green: #07c160;
+  --wechat-message-green: #95ec69;
+  --wechat-page: #ededed;
+  --wechat-toolbar: #f7f7f7;
+  --wechat-text: #191919;
+}
+
+* { box-sizing: border-box; }
+html, body { width: 100%; min-height: 100%; margin: 0; }
+
+body {
+  color: var(--wechat-text);
+  background: #dedede;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+
+button, input { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+::-webkit-scrollbar { display: none; }
+
+.mobile-screen {
+  width: 100%;
+  max-width: 420px;
+  height: 100dvh;
+  margin: 0 auto;
+  overflow: hidden;
+  box-shadow: 0 0 34px rgb(0 0 0 / 14%);
+}
+
+.bubble-left::before,
+.bubble-right::before {
+  position: absolute;
+  top: 14px;
+  width: 0;
+  height: 0;
+  content: "";
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+}
+
+.bubble-left::before { left: -6px; border-right: 6px solid #fff; }
+.bubble-right::before { right: -6px; border-left: 6px solid var(--wechat-message-green); }
+
+@media (max-width: 420px) {
+  body { background: var(--wechat-page); }
+  .mobile-screen { box-shadow: none; }
+}

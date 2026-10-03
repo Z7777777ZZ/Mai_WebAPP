@@ -1,23 +1,27 @@
 # Mai WebApp
 
-Mai 的 Web MVP 工作区。
+Mai 的 Backend、Web Playground 与 Dev Studio 工作区。最终产品客户端将使用
+SwiftUI 开发，当前 Web 主要用于打磨和验证可独立部署的 Backend。
 
-本阶段用 WebApp 验证三件事：
+本阶段用 WebApp 验证四件事：
 
-1. 自然、克制、接近即时通讯软件的聊天体验；
-2. 可由产品所有者持续调整和回滚的 Prompt 系统；
-3. 可观察、可修正、可逐步演化的长期记忆系统。
+1. 可被 Web 与未来 iOS 共同调用的独立 Backend；
+2. 自然、克制、接近即时通讯软件的聊天体验；
+3. 可持续调整和回滚的 Prompt 系统；
+4. 可观察、可修正、可逐步演化的长期记忆系统。
 
 ## 工作区边界
 
 ```text
 Mai_Webapp/
-├── frontend/   # 用户聊天界面与 Mai Studio
-├── backend/    # API、对话编排、Prompt、记忆与模型调用
+├── frontend/   # Web Playground 与 Mai Dev Studio
+├── backend/    # 可独立抽离部署的 Mai 产品服务
 └── README.md   # 项目范围与架构约定
 ```
 
-前端不直接调用任何模型服务。所有模型密钥、Prompt、记忆检索和对话编排均位于后端。
+前端不直接调用任何模型服务。所有模型密钥、Prompt、记忆检索和对话编排均位于
+Backend。Backend 不读取或依赖 frontend；删除整个 frontend 后，Backend 仍应能够
+独立安装、测试、部署和运行。
 
 ## MVP 规划结构
 
@@ -29,16 +33,14 @@ Mai_Webapp/
 │   ├── public/                 # 静态资源
 │   ├── src/
 │   │   ├── app/                # Next.js 路由与页面入口
-│   │   │   ├── chat/           # 用户聊天页
-│   │   │   └── studio/         # Prompt 与记忆调试后台
+│   │   │   ├── chat/           # 当前移动端聊天原型
+│   │   │   └── dev/            # Dev Studio（第二阶段建设）
 │   │   ├── features/
-│   │   │   ├── chat/           # 消息列表、输入框、流式事件处理
-│   │   │   └── studio/         # Prompt 编辑、Trace、记忆检查
+│   │   │   ├── playground/     # 移动端聊天与产品体验验证
+│   │   │   └── devtools/       # Prompt、Trace、架构和环境工具
 │   │   ├── components/
 │   │   │   └── ui/             # 无业务含义的基础 UI
-│   │   ├── lib/
-│   │   │   ├── api/            # 后端 API 客户端
-│   │   │   └── stream/         # SSE 解析与连接管理
+│   │   ├── lib/                 # Backend API 客户端与通用代码
 │   │   ├── styles/              # 全局样式与设计变量
 │   │   └── types/               # 前端共享类型
 │   ├── tests/                   # 前端测试
@@ -47,12 +49,11 @@ Mai_Webapp/
 ├── backend/
 │   ├── app/
 │   │   ├── main.py             # FastAPI 应用入口，只负责装配
-│   │   ├── shared/              # 配置、数据库、日志、公共异常
-│   │   └── modules/
-│   │       ├── chat/            # 会话、消息、SSE 与对话编排
-│   │       ├── prompts/         # Prompt 模板、版本、发布与回滚
-│   │       ├── memory/          # 记忆提取、检索、合并与修正
-│   │       └── llm/             # 模型供应商适配与结构化输出
+│   │   ├── api/                 # Public API 与 Admin API
+│   │   ├── chat/                # 聊天合同与应用编排
+│   │   ├── mai_config/          # 当前产品配置
+│   │   ├── llm/                 # 模型供应商集成
+│   │   └── shared/              # 运行配置与公共异常
 │   ├── migrations/              # PostgreSQL 数据库迁移
 │   ├── tests/                   # 后端测试
 │   └── README.md
@@ -75,10 +76,9 @@ Mai_Webapp/
 
 - 单一用户、单一 Mai；
 - 文本消息；
-- SSE 流式响应；
-- 正在输入状态；
-- 一次回复拆分为多个气泡；
-- 消息历史持久化；
+- 非流式完整响应；
+- 不展示模型思考过程；
+- 消息历史持久化将在单独完成会话设计后实现；
 - 移动端优先布局。
 
 ### Mai Studio
@@ -103,4 +103,3 @@ Mai_Webapp/
 ## 命令执行约定
 
 依赖安装、环境创建、数据库启动、迁移和开发服务器启动均由项目所有者手动执行。协作过程中不会未经明确要求自动运行 `pnpm`、`npm`、`conda`、`pip`、Docker 或应用启动命令。
-

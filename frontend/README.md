@@ -1,17 +1,23 @@
-# Frontend
+# Mai Frontend
 
-Mai WebApp 的 Next.js 前端。
+Mai MVP 的移动端优先 Next.js 前端。页面最大宽度为 420px，不模拟 iPhone
+系统状态栏。
 
-前端只负责用户体验和状态呈现：聊天气泡、输入框、流式事件、移动端布局，以及 Mai Studio。它不保存模型密钥，不组装最终 Prompt，也不直接访问模型供应商。
+## 页面
 
-计划采用：
+- `/`：只有一个 Mai 会话的首页。
+- `/chat`：连接后端的 Mai 聊天页。
+- `/studio`：编辑开场对白、默认用户回复、系统 Prompt 和最大输出 Token。
 
-- Next.js
-- React
-- TypeScript
-- Tailwind CSS
-- Zustand（仅用于必要的客户端状态）
-- TanStack Query（服务端状态）
+## 本地启动
 
-初始化和依赖安装由项目所有者执行。在正式初始化前，本目录只保留边界说明。
+命令由项目所有者执行：
 
+```bash
+cd frontend
+cp .env.local.example .env.local
+pnpm dev
+```
+
+默认连接 `http://localhost:8000`。如后端地址不同，请修改 `.env.local`
+中的 `NEXT_PUBLIC_API_BASE_URL`。
